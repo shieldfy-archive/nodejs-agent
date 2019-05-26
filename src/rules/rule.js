@@ -1,6 +1,4 @@
 var url = require("url");
-var getRawBody = require('raw-body')
-var bodyParser = require('body-parser');
 
 function Rule(obj)
 {
@@ -66,12 +64,25 @@ Rule.prototype.matchQuery = function(req)
 Rule.prototype.matchData = function(req)
 {
     
-    
+
 }
 
 Rule.prototype.matchCookie = function(req)
 {
-    
+    cookiesObj = extractCookies(req);
+    if (!cookiesObj) {
+        // return something
+    }
+
+    for (var key in cookiesObj) {
+        var value = cookiesObj[key];
+        var result = this.applyPreg(this._rule.match, value);
+        /** fix req */
+        if(result) {
+            req.headers.cookie = filterCookies(req.headers.cookie, key, value);
+            // return something
+        }
+    }
 }
 
 Rule.prototype.applyPreg = function(rule,value)
@@ -90,6 +101,51 @@ Rule.prototype.buildResult = function(isAttack,paramName)
             name : paramName 
         }
     }
+}
+
+
+function extractCookies(req) {
+    var str = req.headers.cookie || '';
+    
+    if (!str || typeof str !== 'string') {
+        return;
+    }
+
+    var pairs = str.split('; '); 
+    var obj = {};
+
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i];
+        var eq_idx = pair.indexOf('=');
+    
+        // skip things that don't look like key=value
+        if (eq_idx < 0) {
+          continue;
+        }
+    
+        var key = pair.substr(0, eq_idx).trim();
+        var val = pair.substr(++eq_idx, pair.length).trim();
+    
+        // quoted values
+        if ('"' == val[0]) {
+          val = val.slice(1, -1);
+        }
+    
+        // decoding value
+        if (obj[key] == undefined) {
+            try {
+                obj[key] = decodeURIComponent(val);
+            } catch (e) {
+                obj[key] = val;
+            }
+        }
+    }
+    
+    return obj;
+}
+
+function filterCookies(str) {
+
 }
 
 module.exports = Rule;
