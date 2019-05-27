@@ -71,7 +71,7 @@ Rule.prototype.matchCookie = function(req)
 {
     cookiesObj = extractCookies(req);
     if (!cookiesObj) {
-        // return something
+        return this.buildResult(false, '');
     }
 
     for (var key in cookiesObj) {
@@ -79,10 +79,12 @@ Rule.prototype.matchCookie = function(req)
         var result = this.applyPreg(this._rule.match, value);
         /** fix req */
         if(result) {
-            req.headers.cookie = filterCookies(req.headers.cookie, key, value);
-            // return something
+            req.headers.cookie = '';
+            return this.buildResult(result, key);
         }
     }
+
+    return this.buildResult(result, '');
 }
 
 Rule.prototype.applyPreg = function(rule,value)
@@ -142,10 +144,6 @@ function extractCookies(req) {
     }
     
     return obj;
-}
-
-function filterCookies(str) {
-
 }
 
 module.exports = Rule;
