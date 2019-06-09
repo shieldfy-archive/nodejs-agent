@@ -1,3 +1,4 @@
+const Config = require('./config');
 var path = require('path')
 var Instrument = require('./Instrument');
 var Rules = require('./rules');
@@ -29,6 +30,7 @@ var rules = [];
 function Agent ()
 {
     this._loadedModules = {};
+    this._config = null;
     this.rules = null;
     this.sessionManager = null;
     this.connector = null;
@@ -36,9 +38,10 @@ function Agent ()
     this.Instrumenter = null;
 }
 
-Agent.prototype.start = function(key)
+Agent.prototype.start = function(opts)
 {
     Logger.console('Statring Shieldfy Agent');
+    this._config = new Config().setConfig(opts);
     var baseDir = path.dirname(process.argv[1])
     try {
         var pkg = require(path.join(baseDir, 'package.json'));
@@ -57,8 +60,8 @@ Agent.prototype.start = function(key)
     };
 
     this.http = http({
-        'endPoint':'http://localhost:8005',
-        'appKey':key
+        'endPoint' : this._config.endPoint,
+        'appKey' : this._config.appKey
     });
     
     this.http.trigger('/run',{
