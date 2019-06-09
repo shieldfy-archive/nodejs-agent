@@ -14,7 +14,8 @@ Config.prototype.setConfig = function (opts)
 
         var EnvOpts = {
             'appKey' : process.env.shieldfyAppKey,
-            'debug' : process.env.shieldfyDebug
+            'debug' : process.env.shieldfyDebug,
+            'interval' : process.env.shieldfyInterval
         };
         Object.assign(this._defaults, EnvOpts);
 

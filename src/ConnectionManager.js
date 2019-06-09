@@ -14,18 +14,13 @@ Connector.prototype.start = function()
 
 Connector.prototype.call = function()
 {
-    //return;
     Logger.raw('-> Calling the API');
     var self = this;
     this._agent.http.trigger('/update',{},function(data){
         if(data.status == 'success'){
-            //console.log('rulesX',data.rules);
-            // console.log('rulesXX',new Rules(data.rules));
             self._agent.rules = new Rules(data.rules);
             Logger.raw('rules updated successfully');
-            //console.log(x);
         }
-        //console.log(data);
     });
 
     this.scheduleNextcall();

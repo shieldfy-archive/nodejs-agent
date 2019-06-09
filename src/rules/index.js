@@ -9,13 +9,10 @@ function Rules(rules, Agent)
     }
     this.rulesBank = rulesBank;
     this._agent = Agent;
-    //return rulesBank;
-    //console.log(rulesBank);
 }
 
 Rules.prototype.check = function(req)
 {
-    // var result;
     var requestPayload = this.preapareRequestForPayload(req);
 
     var rulesBank = this.rulesBank;
@@ -26,12 +23,8 @@ Rules.prototype.check = function(req)
         }
 
         var result = rulesBank[key].match(req); 
-        //console.log(result);
         req.shieldfy = result;
         if(result.isAttack){
-            // req.shieldfy.isAttack = true;
-            // req.shieldfy.result = rulesBank[key].getInfo();
-            Logger.console('E2fesh Attack' + req.url);
             break; //attack is spotted , no need to apply remaining rules
         }
     }

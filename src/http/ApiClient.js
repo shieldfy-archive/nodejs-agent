@@ -40,7 +40,6 @@ ApiClient.prototype.request = function(url, body, callback = false)
 
     function requestCallback(res)
     {
-        //console.log(`statusCode: ${res.statusCode}`)
         if(res.statusCode == 200){
             res.on('data', function(data) {
                 try{
