@@ -1,12 +1,13 @@
 var http = require('http');
 var https = require('https');
+var { URL } = require('url');
 
 
 /**
  *
  * @param config
  */
-function ApiClient(config) {
+function ApiClient(config) {    
     this.appKey = config.appKey;
     this.endPoint = new URL(config.endPoint);
 }

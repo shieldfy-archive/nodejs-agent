@@ -1,4 +1,4 @@
-const Config = require('./config');
+var Config = require('./config');
 var path = require('path')
 var Instrument = require('./Instrument');
 var Rules = require('./rules');
@@ -68,8 +68,8 @@ Agent.prototype.start = function(opts)
         info:this._info
     });
 
-    this.Instrumenter = new Instrument(this);
-    this.rules = new Rules(rules);
+    this.Instrumenter = new Instrument(this);    
+    this.rules = new Rules(rules, this);
     this.sessionManager = SessionManager(this).start();
     this.connector = ConnectionManager(this).start();
 }

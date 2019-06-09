@@ -16,7 +16,6 @@ Session.prototype.start = function()
         Shimmer.wrap(exports && exports.Server && exports.Server.prototype, 'emit', function (original) {
             return function (event, req, res) {
                 if (event === 'request') {
-                    console.log(req);
 
 
                     /**

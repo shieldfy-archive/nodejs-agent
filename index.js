@@ -1,6 +1,6 @@
 'use strict'
 
-var Agent = require('./src/agent')
+var Agent = require('./src/Agent')
 
 
 module.exports = function(key) {
