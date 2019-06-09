@@ -40,9 +40,10 @@ function Agent ()
 
 Agent.prototype.start = function(opts)
 {
-    Logger.console('Statring Shieldfy Agent');
     this._config = new Config().setConfig(opts);
-    var baseDir = path.dirname(process.argv[1])
+    this.log = new Logger(this._config.debug);
+    this.log('Statring Shieldfy Agent');
+    var baseDir = path.dirname(process.argv[1]);
     try {
         var pkg = require(path.join(baseDir, 'package.json'));
         var pkgLock = require(path.join(baseDir, 'package-lock.json'));

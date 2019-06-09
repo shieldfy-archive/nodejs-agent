@@ -1,7 +1,6 @@
 var Hook = require('require-in-the-middle');
 var path = require('path');
 var fs = require('fs');
-var Logger = require('./Logger');
 
 function Instrument(Agent)
 {   
@@ -20,7 +19,7 @@ Instrument.prototype._hook = function()
           try {
             version = JSON.parse(fs.readFileSync(pkg)).version
           } catch (e) {
-            Logger.console('could not shim '+name+' module: '+e.message)
+            this._agent.log('could not shim '+name+' module: '+e.message)
             return exports
           }
         } else {
@@ -33,7 +32,7 @@ Instrument.prototype._hook = function()
 
 Instrument.prototype._patch = function(exports, name, version)
 {
-    Logger.console('shimming '+name+'@'+version+' module');
+  this._agent.log('shimming '+name+'@'+version+' module');
     this._agent._loadedModules[name] = version;
     return exports;
 }

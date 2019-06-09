@@ -1,5 +1,4 @@
 var Rules = require('./rules');
-var Logger = require('./Logger');
 
 function Connector(Agent)
 {
@@ -14,12 +13,12 @@ Connector.prototype.start = function()
 
 Connector.prototype.call = function()
 {
-    Logger.raw('-> Calling the API');
+    this._agent.log('-> Calling the API');
     var self = this;
     this._agent.http.trigger('/update',{},function(data){
         if(data.status == 'success'){
             self._agent.rules = new Rules(data.rules);
-            Logger.raw('rules updated successfully');
+            this._agent.log('rules updated successfully');
         }
     });
 

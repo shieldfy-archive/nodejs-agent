@@ -1,8 +1,10 @@
-module.exports = {
-    raw: function(msg){
-        process._rawDebug(msg)
-    },
-    console: function(msg){
-        console.log(msg);
+function Logger(debugMode) {
+    return function (msg)
+    {        
+        if (debugMode) {
+            console.log(msg);
+        }
     }
 }
+
+module.exports = Logger;
