@@ -1,7 +1,5 @@
 var Hook = require('require-in-the-middle');
 var Shimmer = require('shimmer');
-var Logger = require('./Logger');
-
 
 function Session(Agent)
 {

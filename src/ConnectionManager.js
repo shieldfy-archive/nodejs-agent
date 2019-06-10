@@ -3,7 +3,7 @@ var Rules = require('./rules');
 function Connector(Agent)
 {
     this._agent = Agent;
-    this._interval = 10000; //suppose to be 1 minute interval (1440 call / day)
+    this._interval = Agent._config.interval; //suppose to be 1 minute interval (1440 call / day)
 }
 
 Connector.prototype.start = function()

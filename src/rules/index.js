@@ -1,5 +1,4 @@
 var Rule = require('./rule');
-var Logger = require('../Logger');
 
 function Rules(rules, Agent)
 {
