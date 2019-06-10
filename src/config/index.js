@@ -11,12 +11,12 @@ function Config() {
 Config.prototype.setConfig = function (opts)
 {
     if (process.env.shieldfyAppKey !== undefined) {
-
+        
         var EnvOpts = {
             'appKey' : process.env.shieldfyAppKey,
-            'debug' : process.env.shieldfyDebug,
-            'interval' : process.env.shieldfyInterval
-        };
+            'debug' : process.env.shieldfyDebug == "true" ? true : false,
+            'interval' : process.env.shieldfyInterval ? parseInt(process.env.shieldfyInterval) : 10000
+        };        
         Object.assign(this._defaults, EnvOpts);
 
     }else if (typeof(opts) == "string") {
