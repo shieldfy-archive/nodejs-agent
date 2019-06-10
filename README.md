@@ -53,6 +53,12 @@ shieldfyInterval = 10000
 
     
 
+## Testing
+
+* Run the command into your terminal into root directory of this package
+    ```bash
+        npm test
+    ```
 
 ## Configuration
 
