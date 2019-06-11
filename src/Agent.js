@@ -54,10 +54,11 @@ Agent.prototype.start = function(opts)
         ppid: process.ppid,
         arch: process.arch,
         platform: process.platform,
-        node: process.version,
-        main: pkg && pkg.main,
-        dependencies_all:  pkgLock && pkgLock.dependencies,
-        dependencies: pkg && pkg.dependencies,
+        process_version: process.version,
+        app_main: pkg && pkg.main,
+        service_name: pkg && pkg.name,
+        packages_lock:  pkgLock && pkgLock.dependencies,
+        packages: pkg && pkg.dependencies,
     };
 
     this.http = http({
