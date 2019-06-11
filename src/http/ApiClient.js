@@ -1,7 +1,6 @@
 var http = require('http');
 var https = require('https');
-var { URL } = require('url');
-
+var url = require('url');
 
 /**
  *
@@ -9,7 +8,8 @@ var { URL } = require('url');
  */
 function ApiClient(config) {    
     this.appKey = config.appKey;
-    this.endPoint = new URL(config.endPoint);
+    this.endPoint = url.parse(config.endPoint);
+    this.https = this.endPoint.protocol == 'https:' ? true : false;
 }
 
 ApiClient.prototype.setupHeader = function(length)
@@ -28,7 +28,7 @@ ApiClient.prototype.request = function(url, body, callback = false)
 
     var options = {
         hostname: this.endPoint.hostname,
-        port: this.endPoint.protocol == 'https:' ? 443 : 80,
+        port: this.https ? 443 : 80,
         path: url,
         method: 'POST',
         headers: this.setupHeader(data.length)
@@ -44,10 +44,13 @@ ApiClient.prototype.request = function(url, body, callback = false)
             res.on('data', function(data) {
                 try{
                     callback && callback(JSON.parse(data.toString()));
-                }catch(e){}
+                }catch(e){
+                    callback && callback("ERROR IN PARSING");
+                }
             });
         }else{
             //report an error
+            callback && callback('ERROR IN Status code'+res.statusCode);
         }
     }
 
@@ -59,6 +62,7 @@ ApiClient.prototype.request = function(url, body, callback = false)
     
     req.on('error', (error) => {
         //report an error
+        console.log('Request error ', error);
     })
     
     req.write(data);

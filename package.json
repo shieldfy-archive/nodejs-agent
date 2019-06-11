@@ -12,6 +12,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "jasmine": "^3.4.0",
+    "nock": "^10.0.6",
     "raw-body": "^2.4.0",
     "require-in-the-middle": "^4.0.0",
     "shimmer": "^1.2.1"
