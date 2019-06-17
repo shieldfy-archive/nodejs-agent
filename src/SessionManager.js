@@ -20,6 +20,10 @@ Session.prototype.start = function()
                     var requestPayload = Agent.rules.check(req)
                     if(req.shieldfy.isAttack){
                         Agent.http.trigger('/report',{
+                            attacker: {
+                                "ip": (req.headers['x-forwarded-for'] || '').split(',')[0] || req.connection.remoteAddress,
+                                "useragent": req.headers['user-agent']
+                            },
                             result: req.shieldfy,
                             request: requestPayload    
                         });
