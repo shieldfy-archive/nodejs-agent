@@ -3,6 +3,7 @@ var path = require('path')
 var Instrument = require('./Instrument');
 var Rules = require('./rules');
 var SessionManager = require('./SessionManager');
+var SessionManagerMiddleware = require('./SessionManagerMiddleware');
 var ConnectionManager = require('./ConnectionManager');
 var http = require('./http');
 var Logger = require('./Logger');
@@ -36,10 +37,11 @@ function Agent ()
     this.connector = null;
     this.http = null;
     this.Instrumenter = null;
+    this.isUsingMiddleware = false;
 }
 
 Agent.prototype.start = function(opts)
-{
+{    
     this._config = new Config().setConfig(opts);
     this.log = new Logger(this._config.debug);
     this.log('Statring Shieldfy Agent');
@@ -74,7 +76,18 @@ Agent.prototype.start = function(opts)
     this.rules = new Rules(rules, this);
     this.sessionManager = SessionManager(this).start();
     this.connector = ConnectionManager(this).start();
+
+    return this;
 }
 
+Agent.prototype.expressMiddleware = function(){
+    this.sessionMiddleware = SessionManagerMiddleware(this);
+    var self = this;
+    return function(req,res,next)
+    {
+        self.isUsingMiddleware = true;
+        self.sessionMiddleware.check(req, res, next)
+    }
+}
 
 module.exports = Agent;
