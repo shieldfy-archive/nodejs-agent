@@ -3,7 +3,7 @@ var path = require('path')
 var Instrument = require('./Instrument');
 var Rules = require('./rules');
 var SessionManager = require('./SessionManager');
-var SessionManagerMiddleware = require('./SessionManagerMiddleware');
+var ExpressMiddleware = require('./Middlewares/expressMiddleware');
 var ConnectionManager = require('./ConnectionManager');
 var http = require('./http');
 var Logger = require('./Logger');
@@ -80,12 +80,13 @@ Agent.prototype.start = function(opts)
     return this;
 }
 
-Agent.prototype.expressMiddleware = function(){
-    this.sessionMiddleware = SessionManagerMiddleware(this);
+Agent.prototype.expressMiddleware = function()
+{
+    this.sessionMiddleware = ExpressMiddleware(this);
     var self = this;
+    self.isUsingMiddleware = true;
     return function(req,res,next)
     {
-        self.isUsingMiddleware = true;
         self.sessionMiddleware.check(req, res, next)
     }
 }

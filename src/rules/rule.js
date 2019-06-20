@@ -22,7 +22,7 @@ Rule.prototype.match = function(req)
             return this.matchQuery(req,parsedURL);
             break;
         case "data":
-            return this.matchData(req,parsedURL);
+            return this.matchData(req.body);
             break;
         case "cookie":
             return this.matchCookie(req,parsedURL);
@@ -61,9 +61,23 @@ Rule.prototype.matchQuery = function(req)
     return this.buildResult(result,'');
 }
 
-Rule.prototype.matchData = function(req)
+Rule.prototype.matchData = function(body)
 {
-    
+    if (!body) {
+        return this.buildResult(result,'');
+    }
+    var result = false;
+    for (var key in body) {
+        var value = body[key];
+        
+        var result = this.applyPreg(this._rule.match,value);
+        /** TODO: fix req */
+        if(result){            
+            // req.url = '/'; //request passed by ref so we can edit on it
+            return this.buildResult(result,key);
+        }
+    }
+    return this.buildResult(result,'');
 
 }
 
