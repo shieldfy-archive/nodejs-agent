@@ -19,6 +19,9 @@ Judge.prototype.execute = function(req)
             result: req.shieldfy,
             request: requestPayload    
         });
+        return true
+    }else{
+        return false
     }
 }
 

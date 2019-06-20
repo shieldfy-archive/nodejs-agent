@@ -1,15 +1,20 @@
 var Judge = require('../Judge');
+var Block = require('../block')
+var uuidv4 = require('uuid/v4');
 
 function ExpressMiddleware(Agent)
 {
-    this._agent = Agent;
     this.judge = Judge(Agent);
 }
 
 ExpressMiddleware.prototype.check = function(req, res, next)
 {    
-    this.judge.execute(req);
-    next();
+    var result = this.judge.execute(req);
+    if (result) {
+        Block().run(uuidv4(),res);
+    }else{
+        next();
+    }
 }
 
 module.exports = function(Agent){

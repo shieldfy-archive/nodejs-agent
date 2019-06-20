@@ -71,9 +71,7 @@ Rule.prototype.matchData = function(body)
         var value = body[key];
         
         var result = this.applyPreg(this._rule.match,value);
-        /** TODO: fix req */
-        if(result){            
-            // req.url = '/'; //request passed by ref so we can edit on it
+        if(result){    
             return this.buildResult(result,key);
         }
     }
