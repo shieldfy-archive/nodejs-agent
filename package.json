@@ -10,7 +10,8 @@
   "license": "SCL",
   "dependencies": {
     "require-in-the-middle": "^4.0.0",
-    "shimmer": "^1.2.1"
+    "shimmer": "^1.2.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",

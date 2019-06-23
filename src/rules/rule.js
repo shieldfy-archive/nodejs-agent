@@ -22,7 +22,7 @@ Rule.prototype.match = function(req)
             return this.matchQuery(req,parsedURL);
             break;
         case "data":
-            return this.matchData(req,parsedURL);
+            return this.matchData(req.body);
             break;
         case "cookie":
             return this.matchCookie(req,parsedURL);
@@ -40,7 +40,7 @@ Rule.prototype.matchPathname = function(req,parsedURL)
         req.url = '/'; //request passed by ref so we can edit on it
     }
 
-    return this.buildResult(result,'pathname');
+    return this.buildResult(result,'pathname',path);
 }
 
 Rule.prototype.matchQuery = function(req)
@@ -54,16 +54,28 @@ Rule.prototype.matchQuery = function(req)
         /** fix req */
         if(result){
             req.url = '/'; //request passed by ref so we can edit on it
-            return this.buildResult(result,key);
+            return this.buildResult(result,key,value);
         }
     }
 
     return this.buildResult(result,'');
 }
 
-Rule.prototype.matchData = function(req)
+Rule.prototype.matchData = function(body)
 {
-    
+    if (!body) {
+        return this.buildResult(false,'');
+    }
+    var result = false;
+    for (var key in body) {
+        var value = body[key];
+        
+        var result = this.applyPreg(this._rule.match,value);
+        if(result){    
+            return this.buildResult(result,key,value);
+        }
+    }
+    return this.buildResult(result,'');
 
 }
 
@@ -71,7 +83,7 @@ Rule.prototype.matchCookie = function(req)
 {
     cookiesObj = extractCookies(req);
     if (!cookiesObj) {
-        return this.buildResult(false, '');
+        return this.buildResult(false,'');
     }
 
     for (var key in cookiesObj) {
@@ -93,14 +105,15 @@ Rule.prototype.applyPreg = function(rule,value)
     return patt.test(value);
 }
 
-Rule.prototype.buildResult = function(isAttack,paramName)
+Rule.prototype.buildResult = function(isAttack,paramName,paramValue)
 {
     return {
         isAttack : isAttack,
         rule : this._id,
         param : {
             type : this._param.type,
-            name : paramName 
+            name : paramName,
+            value: paramValue
         }
     }
 }
