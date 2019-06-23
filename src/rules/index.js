@@ -12,8 +12,6 @@ function Rules(rules, Agent)
 
 Rules.prototype.check = function(req)
 {
-    var requestPayload = this.preapareRequestForPayload(req);
-
     var rulesBank = this.rulesBank;
     for (var key in rulesBank) {
         
@@ -28,6 +26,7 @@ Rules.prototype.check = function(req)
         }
     }
 
+    var requestPayload = this.preapareRequestForPayload(req);
     return requestPayload;
 }   
 
