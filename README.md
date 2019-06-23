@@ -9,23 +9,21 @@ Shieldfy is a strong application protection platform that helps businesses to se
 1. You will first need to register on [shieldfy.io](https://shieldfy.io/) to get your APP Key.
 2. install nodejs sdk package through NPM (recommanded)
     ```
-    npm install shieldfy-nodejs-vulnerablity-client
+    npm install shieldfy
     ```
 
 ## Usage
 
-### open `index.js` or (main file) and type the following:
+### open `index.js` or (main file) and type the following **on top of the file**
 
-`index.js` File
 ```js
-const shieldfy = require('shieldfy-nodejs-vulnerablity-client');
-shieldfy("<yourAppKey>");
+require('shieldfy')("<yourAppKey>");
 ```
 
-### OR
+### OR you can pass config to the initialize
 
 ```js
-const shieldfy = require('shieldfy-nodejs-client');
+const shieldfy = require('shieldfy');
 shieldfy({
     appKey : "<yourAppKey>",
     debug : false,
@@ -34,20 +32,6 @@ shieldfy({
 ```
 - interval => the number of mille seconds which SDK should check our API every this interval of time for new vulenrable package.
 
-### Or, in case using environment variable (`.env` File)
-
-`index.js` File
-```js
-const shieldfy = require('shieldfy-nodejs-client');
-shieldfy();
-```
-
-`.env` File
-```js
-shieldfyAppKey = "yourAppKey"
-shieldfyDebug = false
-shieldfyInterval = 10000
-```
 
 ### NOTE: You should require Shieldfy in the main file at first before any other package or module in order to SDK work correctly.
 

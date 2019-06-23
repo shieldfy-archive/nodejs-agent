@@ -7,7 +7,7 @@
     "test": "jasmine"
   },
   "author": "",
-  "license": "ISC",
+  "license": "SCL",
   "dependencies": {
     "require-in-the-middle": "^4.0.0",
     "shimmer": "^1.2.1"
