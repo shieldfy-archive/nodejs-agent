@@ -1,6 +1,6 @@
 # Shieldfy Custom License (SCL)
 
-Copyright (c) 2017 Shieldfy inc. <team@shieldfy.com>
+Copyright (c) 2019 Shieldfy inc. <team@shieldfy.com>
 
 > - This software is free for personal and private use only; You may use and/or modify the code for personal and/or educational purposes.
 > - Commercial use of this software is strictly prohibited, as it is part of the shieldfy platform.
