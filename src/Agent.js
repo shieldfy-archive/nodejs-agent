@@ -68,9 +68,7 @@ Agent.prototype.start = function(opts)
         'appKey' : this._config.appKey
     });
     
-    this.http.trigger('/run',{
-        info:this._info
-    });
+    this.http.trigger('/run', this._info);
 
     this.Instrumenter = new Instrument(this);    
     this.rules = new Rules(rules, this);
