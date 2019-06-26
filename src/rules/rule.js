@@ -25,7 +25,7 @@ Rule.prototype.match = function(req)
             return this.matchData(req.body);
             break;
         case "cookie":
-            return this.matchCookie(req,parsedURL);
+            return this.matchCookie(req);
             break;
     }
 }
@@ -43,14 +43,22 @@ Rule.prototype.matchPathname = function(req,parsedURL)
     return this.buildResult(result,'pathname',path);
 }
 
-Rule.prototype.matchQuery = function(req)
+Rule.prototype.matchQuery = function(req, parsedURL)
 {
     var query = parsedURL.query;
     var result = false;
 
     for (var key in query) {
         var value = query[key];
-        var result = this.applyPreg(this._rule.match,value);
+
+        if (this._param.target == 'value') {
+            var result = this.applyPreg(this._rule.match,value);
+        } else if(this._param.target == 'key'){
+            var result = this.applyPreg(this._rule.match,key);
+        } else {
+            var result = this.applyPreg(this._rule.match,value) || this.applyPreg(this._rule.match,key);
+        }
+
         /** fix req */
         if(result){
             req.url = '/'; //request passed by ref so we can edit on it
@@ -70,7 +78,14 @@ Rule.prototype.matchData = function(body)
     for (var key in body) {
         var value = body[key];
         
-        var result = this.applyPreg(this._rule.match,value);
+        if (this._param.target == 'value') {
+            var result = this.applyPreg(this._rule.match,value);
+        } else if(this._param.target == 'key'){
+            var result = this.applyPreg(this._rule.match,key);
+        } else {
+            var result = this.applyPreg(this._rule.match,value) || this.applyPreg(this._rule.match,key);
+        }
+
         if(result){    
             return this.buildResult(result,key,value);
         }
@@ -88,7 +103,15 @@ Rule.prototype.matchCookie = function(req)
 
     for (var key in cookiesObj) {
         var value = cookiesObj[key];
-        var result = this.applyPreg(this._rule.match, value);
+
+        if (this._param.target == 'value') {
+            var result = this.applyPreg(this._rule.match,value);
+        } else if(this._param.target == 'key'){
+            var result = this.applyPreg(this._rule.match,key);
+        } else {
+            var result = this.applyPreg(this._rule.match,value) || this.applyPreg(this._rule.match,key);
+        }
+
         /** fix req */
         if(result) {
             req.headers.cookie = '';

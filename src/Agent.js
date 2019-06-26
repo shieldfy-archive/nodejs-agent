@@ -15,8 +15,9 @@ var Logger = require('./Logger');
 //         "function":"serve",
 //         "version":"<1.1.2",
 //         "param":{
-//             type:"pathname", //query, data, cookie, pathname
-//             name:"*"
+//             type:"query", //query, data, cookie, pathname
+//             name:"*",
+//             target:"key"
 //         },
 //         "rule":{
 //             "type":"preg",
