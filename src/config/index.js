@@ -4,7 +4,7 @@ function Config() {
       "endPoint" : 'https://ci-dev.shieldfy.co/',
       "appKey" : null,
       "debug" : false,
-      "interval" : 10000
+      "interval" : 30000
     };
 }
 
