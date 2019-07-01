@@ -1,7 +1,7 @@
 function Config() {
     this._defaults = {
       "sdkVersion" : "0.0.1",
-      "endPoint" : 'https://ci-dev.shieldfy.co/',
+      "endPoint" : 'https://ci.shieldfy.io/',
       "appKey" : null,
       "debug" : false,
       "interval" : 30000
