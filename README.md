@@ -23,8 +23,7 @@ require('shieldfy')("<yourAppKey>");
 ### OR you can pass config to the initialize
 
 ```js
-const shieldfy = require('shieldfy');
-shieldfy({
+const shieldfy = require('shieldfy')({
     appKey : "<yourAppKey>",
     debug : false,
     interval : 10000

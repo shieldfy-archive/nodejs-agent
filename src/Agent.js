@@ -15,8 +15,9 @@ var Logger = require('./Logger');
 //         "function":"serve",
 //         "version":"<1.1.2",
 //         "param":{
-//             type:"pathname", //query, data, cookie, pathname
-//             name:"*"
+//             type:"query", //query, data, cookie, pathname
+//             name:"*",
+//             target:"key"
 //         },
 //         "rule":{
 //             "type":"preg",
@@ -68,9 +69,7 @@ Agent.prototype.start = function(opts)
         'appKey' : this._config.appKey
     });
     
-    this.http.trigger('/run',{
-        info:this._info
-    });
+    this.http.trigger('/run', this._info);
 
     this.Instrumenter = new Instrument(this);    
     this.rules = new Rules(rules, this);

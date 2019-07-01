@@ -1,10 +1,10 @@
 function Config() {
     this._defaults = {
       "sdkVersion" : "0.0.1",
-      "endPoint" : 'https://api.shieldfy.com/v2/',
+      "endPoint" : 'https://ci-dev.shieldfy.co/',
       "appKey" : null,
       "debug" : false,
-      "interval" : 10000
+      "interval" : 30000
     };
 }
 

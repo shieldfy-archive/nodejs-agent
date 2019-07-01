@@ -15,10 +15,10 @@ Connector.prototype.call = function()
 {
     this._agent.log('-> Calling the API');
     var self = this;
-    this._agent.http.trigger('/update',{},function(data){
-        if(data.status == 'success'){
-            self._agent.rules = new Rules(data.rules);
-            this._agent.log('rules updated successfully');
+    this._agent.http.trigger('/update',{},function(data){        
+        if(data.status == 'success'){            
+            self._agent.rules = new Rules(data.rules, self._agent);
+            self._agent.log('rules updated successfully');
         }
     });
 

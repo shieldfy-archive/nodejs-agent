@@ -15,7 +15,7 @@ function ApiClient(config) {
 ApiClient.prototype.setupHeader = function(length)
 {
     return {
-        'Authorization': 'bearer '+this.appKey,
+        'Authorization': 'Bearer '+this.appKey,
         'Content-Type': 'application/json',
         'Content-Length': length
     };
