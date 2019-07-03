@@ -1,6 +1,6 @@
-# Shieldfy NodeJs-Vulnerablity SDK 
+# Shieldfy NodeJs Runtime Agent [BETA]
 
-This is the official NodeJs-Vulnerablity SDK for Shieldfy (shieldfy.io) https://shieldfy.io
+This is the official Runtime Agent for Shieldfy (shieldfy.io) https://shieldfy.io
 
 Shieldfy is a strong application protection platform that helps businesses to secure their applications online.
 
