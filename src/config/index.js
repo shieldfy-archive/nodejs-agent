@@ -15,7 +15,8 @@ Config.prototype.setConfig = function (opts)
         var EnvOpts = {
             'appKey' : process.env.shieldfyAppKey,
             'debug' : process.env.shieldfyDebug == "true" ? true : false,
-            'interval' : process.env.shieldfyInterval ? parseInt(process.env.shieldfyInterval) : 10000
+            'interval' : process.env.shieldfyInterval ? parseInt(process.env.shieldfyInterval) : 10000,
+            'endPoint' : process.env.shieldfyEndPoint ? process.env.shieldfyEndPoint : 'https://ci.shieldfy.io/',
         };        
         Object.assign(this._defaults, EnvOpts);
 
