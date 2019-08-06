@@ -1,6 +1,6 @@
 {
   "name": "shieldfy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Shieldfy Nodejs Runtime Agent",
   "main": "index.js",
   "scripts": {
