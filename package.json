@@ -1,7 +1,7 @@
 {
   "name": "shieldfy",
   "version": "0.0.1",
-  "description": "Shieldfy Nodejs SDK",
+  "description": "Shieldfy Nodejs Runtime Agent",
   "main": "index.js",
   "scripts": {
     "test": "jasmine"
