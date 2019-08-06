@@ -7,6 +7,8 @@ function Rule(obj)
     this._version  = obj.version;
     this._param = obj.param;
     this._rule = obj.rule;
+    this._advisoryGuid = obj.advisoryGuid;
+    this._vulnerabilityGuid = obj.vulnerabilityGuid;
 }
 
 
@@ -137,7 +139,9 @@ Rule.prototype.buildResult = function(isAttack,paramName,paramValue)
             type : this._param.type,
             name : paramName,
             value: paramValue
-        }
+        },
+        advisoryGuid: this._advisoryGuid,
+        vulnerabilityGuid: this._vulnerabilityGuid,
     }
 }
 
