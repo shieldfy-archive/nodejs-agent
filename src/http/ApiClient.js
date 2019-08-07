@@ -29,7 +29,7 @@ ApiClient.prototype.request = function(url, body, callback = false)
     var options = {
         hostname: this.endPoint.hostname,
         port: this.https ? 443 : 80,
-        path: url,
+        path: this.endPoint.pathname == '/' ? url : this.endPoint.pathname + url,
         method: 'POST',
         headers: this.setupHeader(data.length)
     }
@@ -42,13 +42,13 @@ ApiClient.prototype.request = function(url, body, callback = false)
     {
         if(res.statusCode == 200){
             res.on('data', function(data) {
-                try{
+                try{                    
                     callback && callback(JSON.parse(data.toString()));
                 }catch(e){
                     callback && callback("ERROR IN PARSING");
                 }
             });
-        }else{
+        }else{            
             //report an error
             callback && callback('ERROR IN Status code'+res.statusCode);
         }

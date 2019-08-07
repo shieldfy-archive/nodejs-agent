@@ -1,7 +1,7 @@
 function Config() {
     this._defaults = {
       "sdkVersion" : "0.0.1",
-      "endPoint" : 'https://ci.shieldfy.io/',
+      "endPoint" : 'https://ci.shieldfy.io/api',
       "appKey" : null,
       "debug" : false,
       "interval" : 30000
@@ -16,7 +16,7 @@ Config.prototype.setConfig = function (opts)
             'appKey' : process.env.shieldfyAppKey,
             'debug' : process.env.shieldfyDebug == "true" ? true : false,
             'interval' : process.env.shieldfyInterval ? parseInt(process.env.shieldfyInterval) : 10000,
-            'endPoint' : process.env.shieldfyEndPoint ? process.env.shieldfyEndPoint : 'https://ci.shieldfy.io/',
+            'endPoint' : process.env.shieldfyEndPoint ? process.env.shieldfyEndPoint : 'https://ci.shieldfy.io/api',
         };        
         Object.assign(this._defaults, EnvOpts);
 
