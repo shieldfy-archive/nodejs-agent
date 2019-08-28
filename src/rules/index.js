@@ -33,10 +33,7 @@ Rules.prototype.check = function(req)
 Rules.prototype.preapareRequestForPayload = function(req)
 {
     return {
-        statusCode: req.statusCode,
-        statusMessage: req.statusMessage,
         headers: req.headers,
-        trailers: req.trailers,
         url: req.url,
         method: req.method,
     }
