@@ -12,12 +12,11 @@ function ApiClient(config) {
     this.https = this.endPoint.protocol == 'https:' ? true : false;
 }
 
-ApiClient.prototype.setupHeader = function(length)
+ApiClient.prototype.setupHeader = function()
 {
     return {
         'Authorization': 'Bearer '+this.appKey,
-        'Content-Type': 'application/json',
-        'Content-Length': length
+        'Content-Type': 'application/json'
     };
 }
 
@@ -31,7 +30,7 @@ ApiClient.prototype.request = function(url, body, callback = false)
         port: this.https ? 443 : 80,
         path: this.endPoint.pathname == '/' ? url : this.endPoint.pathname + url,
         method: 'POST',
-        headers: this.setupHeader(data.length)
+        headers: this.setupHeader()
     }
 
     if(this.endPoint.port){
@@ -42,13 +41,13 @@ ApiClient.prototype.request = function(url, body, callback = false)
     {
         if(res.statusCode == 200){
             res.on('data', function(data) {
-                try{                    
+                try{
                     callback && callback(JSON.parse(data.toString()));
                 }catch(e){
                     callback && callback("ERROR IN PARSING");
                 }
             });
-        }else{            
+        }else{
             //report an error
             callback && callback('ERROR IN Status code'+res.statusCode);
         }
