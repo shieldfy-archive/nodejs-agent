@@ -19,6 +19,7 @@ Connector.prototype.call = function()
         if(data.status == 'success'){            
             self._agent.rules = new Rules(data.rules, self._agent);
             self._agent.log('rules updated successfully');
+            // self._agent.monkeyPatch.applyMonkey(data.rules)
         }
     });
 

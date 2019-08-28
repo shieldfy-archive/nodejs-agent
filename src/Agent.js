@@ -5,6 +5,7 @@ var Rules = require('./rules');
 var SessionManager = require('./SessionManager');
 var ExpressMiddleware = require('./Middlewares/expressMiddleware');
 var ConnectionManager = require('./ConnectionManager');
+var MonkeyPatch = require('./monkeyPatch');
 var http = require('./http');
 var Logger = require('./Logger');
 
@@ -36,6 +37,7 @@ function Agent ()
     this.rules = null;
     this.sessionManager = null;
     this.connector = null;
+    this.monkeyPatch = null;
     this.http = null;
     this.Instrumenter = null;
     this.isUsingMiddleware = false;
@@ -71,6 +73,7 @@ Agent.prototype.start = function(opts)
     
     this.http.trigger('/run', this._info);
 
+    // this.monkeyPatch = new MonkeyPatch(this);
     this.Instrumenter = new Instrument(this);    
     this.rules = new Rules(rules, this);
     this.sessionManager = SessionManager(this).start();
