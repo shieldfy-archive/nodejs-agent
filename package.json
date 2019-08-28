@@ -9,7 +9,9 @@
   "author": "",
   "license": "SCL",
   "dependencies": {
+    "glob": "^7.1.4",
     "require-in-the-middle": "^4.0.0",
+    "semver": "^6.3.0",
     "shimmer": "^1.2.1",
     "uuid": "^3.3.2"
   },
