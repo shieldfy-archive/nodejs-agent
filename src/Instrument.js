@@ -4,8 +4,8 @@ var fs = require('fs');
 
 function Instrument(Agent)
 {   
-  this._agent = Agent;
-  this._hook();
+    this._agent = Agent;
+    this._hook();
 }
 
 Instrument.prototype._hook = function()
@@ -32,7 +32,10 @@ Instrument.prototype._hook = function()
 
 Instrument.prototype._patch = function(exports, name, version)
 {
-  this._agent.log('shimming '+name+'@'+version+' module');
+    this._agent.log('shimming '+name+'@'+version+' module');
+    if (this._agent.monkeyPatch.monkeyRulesModules.includes(name)) {
+        this._agent.monkeyPatch.applyMonkey(exports, name);
+    }
     this._agent._loadedModules[name] = version;
     return exports;
 }

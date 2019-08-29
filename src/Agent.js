@@ -73,7 +73,7 @@ Agent.prototype.start = function(opts)
     
     this.http.trigger('/run', this._info);
 
-    // this.monkeyPatch = new MonkeyPatch(this);
+    this.monkeyPatch = new MonkeyPatch(this);
     this.Instrumenter = new Instrument(this);    
     this.rules = new Rules(rules, this);
     this.sessionManager = SessionManager(this).start();
