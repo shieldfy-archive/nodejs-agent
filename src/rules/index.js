@@ -19,7 +19,7 @@ Rules.prototype.check = function(req)
             continue;
         }
 
-        var result = rulesBank[key].match(req); 
+        var result = rulesBank[key].match(req, this._agent._config.action); 
         req.shieldfy = result;
         if(result.isAttack){
             break; //attack is spotted , no need to apply remaining rules
