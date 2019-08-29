@@ -1,4 +1,5 @@
 var Rules = require('./rules');
+var isServerless = require('is-serverless')
 
 function Connector(Agent)
 {
@@ -22,7 +23,11 @@ Connector.prototype.call = function()
         }
     });
 
-    this.scheduleNextcall();
+    if (isServerless.result) {
+        self._agent.log('The code is running on a serverless environment : ' + isServerless.whichOne);
+    } else {
+        this.scheduleNextcall();
+    }
 }
 
 Connector.prototype.scheduleNextcall = function()
