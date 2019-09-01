@@ -18,9 +18,12 @@ Shieldfy is a strong application protection platform that helps businesses to se
 
 ```js
 const shieldfy = require('shieldfy')("<yourAppKey>");
-// add the next line if you using express framework after require express, please include shieldfy middleware as following for more protaction and performance.
+
+//If you are using expressJs include our middleware before yours
 app.use(shieldfy.expressMiddleware());
 ```
+
+## Configurations
 
 ### OR you can pass config to the initialize
 
@@ -31,7 +34,8 @@ const shieldfy = require('shieldfy')({
     action: "block"
     interval : 10000
 });
-// add the next line if you using express framework after require express, please include shieldfy middleware as following for more protaction and performance.
+
+//If you are using expressJs include our middleware before yours
 app.use(shieldfy.expressMiddleware());
 ```
 - interval => the number of mille seconds which SDK should check our API every this interval of time for new vulenrable package.
@@ -52,10 +56,6 @@ app.use(shieldfy.expressMiddleware());
     ```bash
         npm test
     ```
-
-## Configuration
-
-For more information about configurations and usage, refer to the official documentation at [docs.shieldfy.io](#).
 
 ## Contributing
 
