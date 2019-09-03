@@ -25,6 +25,36 @@ Judge.prototype.execute = function(req)
     }
 }
 
+Judge.prototype.executeMonkey = function(paramValue, dataType, match)
+{
+    try {
+        if (typeof paramValue == undefined && dataType == 'undefined') {
+            return { isAttack: true }
+        }
+        if (typeof paramValue == 'function' && dataType == 'function') {
+            paramValue = paramValue.toString()
+            return { isAttack: applyPreg(match, paramValue) }
+        }
+        if (typeof paramValue == 'string' && dataType == 'string') {
+            return { isAttack: applyPreg(match, paramValue) }
+        }
+        if (typeof paramValue == dataType) {
+            paramValue = JSON.stringify(paramValue)
+            return { isAttack: applyPreg(match, paramValue) }
+        }
+        return { isAttack: false }
+    } catch (error) {
+        // report to exceptions endpoint
+    }
+}
+
+function applyPreg(rule,value)
+{
+    var patt = new RegExp(rule);
+    return patt.test(value);
+}
+
+
 module.exports = function(Agent){
     return new Judge(Agent)
 };

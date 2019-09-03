@@ -1,4 +1,5 @@
 var Rules = require('./rules');
+var MonkeyRules = require('./monkey_rules/index');
 
 function Connector(Agent)
 {
@@ -19,7 +20,8 @@ Connector.prototype.call = function()
         if(data.status == 'success'){            
             self._agent.rules = new Rules(data.rules, self._agent);
             self._agent.log('rules updated successfully');
-            // self._agent.monkeyPatch.update(data.rules)
+            self._agent.monkeyRules = new MonkeyRules(data.monkey_rules, self._agent)
+            self._agent.log('monkeyRules updated successfully');
         }
     });
 
