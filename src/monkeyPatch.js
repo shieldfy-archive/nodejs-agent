@@ -38,10 +38,13 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
             var paramIndcies = this.monkeyRules[index]['param-no']
             var dataType = this.monkeyRules[index]['rule']['dataType']
             var match = this.monkeyRules[index]['rule']['match']
+            var returnedType = this.monkeyRules[index]['returnedType']
 
+            var self = this
             Shimmer.wrap(exports, functionName,(original) =>{
                 return function () {
-
+                    console.log(typeof arguments[2]);
+                    
                     if (paramIndcies.length !== 0) {
 
                         paramIndcies.forEach(paramIndex => {
@@ -50,6 +53,7 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
                             // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
+                                return self.mockReturned(returnedType, arguments)
                                 throw new Error('shieldfy catched attack');
                                 return
                             }
@@ -61,6 +65,7 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
                             // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
+                                return self.mockReturned(returnedType, arguments)
                                 throw new Error('shieldfy catched attack');
                                 return 
                             }
@@ -75,6 +80,51 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
     } catch (error) {
         // report to exceptions endpoint
     }  
+}
+
+monkeyPatch.prototype.mockReturned = function(returnedType, args)
+{
+    switch (returnedType) {
+        case 'function':
+            return args[getFunctionIndex(args)](new Error('shieldfy catched attack'))
+
+        case 'promise':
+            return new Promise(function(resolve, reject) {
+                reject('shieldfy catched attack')
+            })
+
+        case 'null':
+            return null
+            
+        case 'undefiend':
+            return
+
+        case 'array':
+            return [];
+
+        case 'object':
+            return {};
+
+        case 'false':
+            return false;
+
+        case '0':
+            return 0;
+
+        case 'empty':
+            return "";
+    
+        default:
+            break;
+    }
+}
+
+function getFunctionIndex (args) {
+    for (const key in args) {
+        if (typeof args[key] == 'function') {
+            return key;
+        }
+    }
 }
 
 module.exports = monkeyPatch
