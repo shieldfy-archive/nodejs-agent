@@ -26,26 +26,43 @@ Judge.prototype.execute = function(req)
 }
 
 Judge.prototype.executeMonkey = function(paramValue, dataType, match)
-{
+{    
     try {
         if (typeof paramValue == undefined && dataType == 'undefined') {
-            return { isAttack: true }
+            return { isAttack: true, paramValue, dataType }
         }
         if (typeof paramValue == 'function' && dataType == 'function') {
             paramValue = paramValue.toString()
-            return { isAttack: applyPreg(match, paramValue) }
+            return { isAttack: applyPreg(match, paramValue), paramValue, dataType }
         }
         if (typeof paramValue == 'string' && dataType == 'string') {
-            return { isAttack: applyPreg(match, paramValue) }
+            return { isAttack: applyPreg(match, paramValue), paramValue, dataType }
         }
         if (typeof paramValue == dataType) {
             paramValue = JSON.stringify(paramValue)
-            return { isAttack: applyPreg(match, paramValue) }
+            return { isAttack: applyPreg(match, paramValue), paramValue, dataType }
         }
         return { isAttack: false }
     } catch (error) {
         // report to exceptions endpoint
     }
+}
+
+Judge.prototype.report = function(id, result, paramIndex, advisoryGuid, vulnerabilityGuid)
+{
+    this._agent.http.trigger('/report',{
+        result: {
+            isAttack : true,
+            rule : id,
+            param : {
+                type : result.dataType,
+                name : (paramIndex+1).toString(),
+                value: result.paramValue
+            },
+            advisoryGuid: advisoryGuid,
+            vulnerabilityGuid: vulnerabilityGuid,
+        }
+    })
 }
 
 function applyPreg(rule,value)

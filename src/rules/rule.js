@@ -117,7 +117,7 @@ Rule.prototype.matchCookie = function(req)
         /** fix req */
         if(result) {
             req.headers.cookie = '';
-            return this.buildResult(result, key);
+            return this.buildResult(result, key, value);
         }
     }
 

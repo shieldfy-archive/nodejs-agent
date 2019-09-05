@@ -24,7 +24,7 @@ monkeyPatch.prototype.start = function()
 }
 
 monkeyPatch.prototype.applyMonkey = function(exports, name)
-{  
+{      
     try {
         var _Judge = this.judge;
         for (let index = 0; index < this.monkeyRules.length; index++) {
@@ -36,28 +36,33 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
 
             var functionName = this.monkeyRules[index]['function']
             var paramIndcies = this.monkeyRules[index]['param-no']
+            var id = this.monkeyRules[index]['id']
+            var path = this.monkeyRules[index]['path']
             var dataType = this.monkeyRules[index]['rule']['dataType']
             var match = this.monkeyRules[index]['rule']['match']
+            var advisoryGuid = this.monkeyRules[index]['advisoryGuid']
+            var vulnerabilityGuid = this.monkeyRules[index]['vulnerabilityGuid']
             var returnedType = this.monkeyRules[index]['returnedType']
 
+            var wrapedModule = path.length ? getWrapedModule(exports, path) : exports
             var self = this
-            Shimmer.wrap(exports, functionName,(original) =>{
+
+            Shimmer.wrap(wrapedModule, functionName,(original) =>{
                 return function () {
-                    console.log(typeof arguments[2]);
                     
                     if (paramIndcies.length !== 0) {
 
-                        paramIndcies.forEach(paramIndex => {
+                        for (let paramIndex = 0; paramIndex < paramIndcies.length; paramIndex++) {
+                            const element = paramIndcies[paramIndex]-1;                            
                             // apply rule on specific arguments
-                            let paramValue = arguments[paramIndex]
+                            let paramValue = arguments[element]
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
                             // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
+                                _Judge.report(id, result, element, advisoryGuid, vulnerabilityGuid)
                                 return self.mockReturned(returnedType, arguments)
-                                throw new Error('shieldfy catched attack');
-                                return
                             }
-                        });
+                        }
                     } else {
                         // apply rule on all arguments 
                         for (const arg in arguments) {
@@ -65,9 +70,8 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
                             // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
+                                _Judge.report(id, result, arg, advisoryGuid, vulnerabilityGuid)
                                 return self.mockReturned(returnedType, arguments)
-                                throw new Error('shieldfy catched attack');
-                                return 
                             }
                         }
                     }
@@ -111,7 +115,7 @@ monkeyPatch.prototype.mockReturned = function(returnedType, args)
         case '0':
             return 0;
 
-        case 'empty':
+        case '':
             return "";
     
         default:
@@ -125,6 +129,14 @@ function getFunctionIndex (args) {
             return key;
         }
     }
+}
+
+function getWrapedModule(exportsModule ,path) {
+    var tempObj = exportsModule
+    for (let index = 0; index < path.length; index++) {
+        tempObj = tempObj[path[index]];
+    }
+    return tempObj
 }
 
 module.exports = monkeyPatch
