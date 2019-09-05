@@ -12,40 +12,40 @@ function Rule(obj)
 }
 
 
-Rule.prototype.match = function(req)
+Rule.prototype.match = function(req, action)
 {
     var parsedURL = url.parse(req.url, true); // .query
 
     switch (this._param.type) {
         case "pathname":
-            return this.matchPathname(req,parsedURL);
+            return this.matchPathname(req,parsedURL, action);
             break;
         case "query":
-            return this.matchQuery(req,parsedURL);
+            return this.matchQuery(req,parsedURL, action);
             break;
         case "data":
-            return this.matchData(req.body);
+            return this.matchData(req.body, action);
             break;
         case "cookie":
-            return this.matchCookie(req);
+            return this.matchCookie(req, action);
             break;
     }
 }
 
-Rule.prototype.matchPathname = function(req,parsedURL)
+Rule.prototype.matchPathname = function(req,parsedURL, action)
 {
     var path = parsedURL.pathname;
     var result = this.applyPreg(this._rule.match,path);
 
     /** fix req */
-    if(result){
+    if(result && action != 'listen'){
         req.url = '/'; //request passed by ref so we can edit on it
     }
 
     return this.buildResult(result,'pathname',path);
 }
 
-Rule.prototype.matchQuery = function(req, parsedURL)
+Rule.prototype.matchQuery = function(req, parsedURL, action)
 {
     var query = parsedURL.query;
     var result = false;
@@ -63,7 +63,9 @@ Rule.prototype.matchQuery = function(req, parsedURL)
 
         /** fix req */
         if(result){
-            req.url = '/'; //request passed by ref so we can edit on it
+            if (action != 'listen') {
+                req.url = '/'; //request passed by ref so we can edit on it
+            }
             return this.buildResult(result,key,value);
         }
     }
@@ -71,7 +73,7 @@ Rule.prototype.matchQuery = function(req, parsedURL)
     return this.buildResult(result,'');
 }
 
-Rule.prototype.matchData = function(body)
+Rule.prototype.matchData = function(body, action)
 {
     if (!body) {
         return this.buildResult(false,'');
@@ -96,7 +98,7 @@ Rule.prototype.matchData = function(body)
 
 }
 
-Rule.prototype.matchCookie = function(req)
+Rule.prototype.matchCookie = function(req, action)
 {
     cookiesObj = extractCookies(req);
     if (!cookiesObj) {
@@ -116,7 +118,9 @@ Rule.prototype.matchCookie = function(req)
 
         /** fix req */
         if(result) {
-            req.headers.cookie = '';
+            if (action != 'listen') {
+                req.headers.cookie = '';
+            }
             return this.buildResult(result, key, value);
         }
     }

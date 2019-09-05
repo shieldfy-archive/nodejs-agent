@@ -28,12 +28,18 @@ app.use(shieldfy.expressMiddleware());
 const shieldfy = require('shieldfy')({
     appKey : "<yourAppKey>",
     debug : false,
+    action: "block"
     interval : 10000
 });
 // add the next line if you using express framework after require express, please include shieldfy middleware as following for more protaction and performance.
 app.use(shieldfy.expressMiddleware());
 ```
 - interval => the number of mille seconds which SDK should check our API every this interval of time for new vulenrable package.
+- action => 
+    - "block"
+       - This is default mode in which if there exist attack on your application SDK will stop the attack and block it then report to the shieldfy dashboard.
+    - "listen"
+       - In this mode the SDK will not bloack any attack but it will still report this attacks to shieldfy dashboard. 
 
 
 ### NOTE: You should require Shieldfy in the main file at first before any other package or module in order to SDK work correctly.

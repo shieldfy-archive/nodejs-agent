@@ -4,13 +4,14 @@ var uuidv4 = require('uuid/v4');
 
 function ExpressMiddleware(Agent)
 {
+    this._agent = Agent;
     this.judge = Judge(Agent);
 }
 
 ExpressMiddleware.prototype.check = function(req, res, next)
 {    
     var result = this.judge.execute(req);
-    if (result) {
+    if (result && this._agent._config.action != 'listen') {
         Block().run(uuidv4(),res);
     }else{
         next();
