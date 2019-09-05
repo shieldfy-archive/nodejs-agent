@@ -57,10 +57,11 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                             // apply rule on specific arguments
                             let paramValue = arguments[element]
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
-                            // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
                                 _Judge.report(id, result, element, advisoryGuid, vulnerabilityGuid)
-                                return self.mockReturned(returnedType, arguments)
+                                if (self._agent._config.action != 'listen') {
+                                    return self.mockReturned(returnedType, arguments)
+                                }
                             }
                         }
                     } else {
@@ -68,10 +69,11 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                         for (const arg in arguments) {
                             let paramValue = arguments[arg]
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
-                            // TODO: check for action when you merge to master branch
                             if (result.isAttack) {
                                 _Judge.report(id, result, arg, advisoryGuid, vulnerabilityGuid)
-                                return self.mockReturned(returnedType, arguments)
+                                if (self._agent._config.action != 'listen') {
+                                    return self.mockReturned(returnedType, arguments)
+                                }
                             }
                         }
                     }
