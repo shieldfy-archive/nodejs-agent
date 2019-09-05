@@ -1,4 +1,5 @@
 var Rules = require('./rules');
+var MonkeyRules = require('./monkey_rules/index');
 var isServerless = require('is-serverless')
 
 function Connector(Agent)
@@ -16,10 +17,13 @@ Connector.prototype.call = function()
 {
     this._agent.log('-> Calling the API');
     var self = this;
-    this._agent.http.trigger('/update',{},function(data){        
-        if(data.status == 'success'){            
-            self._agent.rules = new Rules(data.rules, self._agent);
+    this._agent.http.trigger('/update',{},function(response){    
+        
+        if(response.status == 'success'){                        
+            self._agent.rules = new Rules(response.data.rules, self._agent);
             self._agent.log('rules updated successfully');
+            self._agent.monkeyRules = new MonkeyRules(response.data.monkey_rules, self._agent)
+            self._agent.log('monkeyRules updated successfully');
         }
     });
 
