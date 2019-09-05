@@ -13,6 +13,8 @@ monkeyPatch.prototype.start = function()
 {
     this.monkeyRules = JSON.parse(fs.readFileSync(__dirname+'/monkey_rules/rules.json').toString())
     this.monkeyRulesModules = []
+    // monkeyRulesModules is a set of non redendent module name
+    // get all modules names from monkey rules
     for (let index = 0; index < this.monkeyRules.length; index++) {
         const rule = this.monkeyRules[index];
         if (this.monkeyRulesModules.includes(rule['module'])) {
@@ -47,7 +49,7 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
             var wrapedModule = path.length ? getWrapedModule(exports, path) : exports
             var self = this
 
-            Shimmer.wrap(wrapedModule, functionName,(original) =>{
+            Shimmer.wrap(wrapedModule, functionName, function (original) {
                 return function () {
                     
                     if (paramIndcies.length !== 0) {
@@ -70,7 +72,7 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
                             let paramValue = arguments[arg]
                             let result = _Judge.executeMonkey(paramValue, dataType, match)
                             if (result.isAttack) {
-                                _Judge.report(id, result, arg, advisoryGuid, vulnerabilityGuid)
+                                _Judge.report(id, result, parseInt(arg), advisoryGuid, vulnerabilityGuid)
                                 if (self._agent._config.action != 'listen') {
                                     return self.mockReturned(returnedType, arguments)
                                 }

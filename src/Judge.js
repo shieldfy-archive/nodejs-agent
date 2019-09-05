@@ -48,6 +48,13 @@ Judge.prototype.executeMonkey = function(paramValue, dataType, match)
     }
 }
 
+/**
+ * @param {string} id
+ * @param {object} result
+ * @param {int} paramIndex
+ * @param {string} advisoryGuid
+ * @param {string} vulnerabilityGuid
+ */
 Judge.prototype.report = function(id, result, paramIndex, advisoryGuid, vulnerabilityGuid)
 {
     this._agent.http.trigger('/report',{
