@@ -31,7 +31,7 @@ app.use(shieldfy.expressMiddleware());
 const shieldfy = require('shieldfy')({
     appKey : "<yourAppKey>",
     debug : false,
-    action: "block"
+    action: "block",
     interval : 10000
 });
 
