@@ -30,6 +30,7 @@ Connector.prototype.call = function()
     if (isServerless.result) {
         self._agent.log('The code is running on a serverless environment : ' + isServerless.whichOne);
     } else {
+        if (!this._agent._config.update) return
         this.scheduleNextcall();
     }
 }

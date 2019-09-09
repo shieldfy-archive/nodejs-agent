@@ -6,6 +6,7 @@ function Config() {
       "debug" : false,
       "interval" : 30000,
       "action": "block",
+      "update": true
     };
 }
 
@@ -19,6 +20,7 @@ Config.prototype.setConfig = function (opts)
             'interval' : process.env.shieldfyInterval ? parseInt(process.env.shieldfyInterval) : 10000,
             'endPoint' : process.env.shieldfyEndPoint ? process.env.shieldfyEndPoint : 'https://ci.shieldfy.io/api',
             'action' : process.env.shieldfyAction ? process.env.shieldfyAction : 'block',
+            'update' : process.env.shieldfyUpdate == "true" ? true : false,
         };        
         Object.assign(this._defaults, EnvOpts);
 
