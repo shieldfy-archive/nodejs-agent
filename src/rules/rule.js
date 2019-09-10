@@ -53,7 +53,7 @@ Rule.prototype.matchQuery = function(req, parsedURL, action)
     for (var key in query) {
         var value = query[key];
 
-        if (this._param.target == 'value') {
+        if (this._param.target == 'value' && ( this._param.name == '*' || this._param.name == key) ) {
             var result = this.applyPreg(this._rule.match,value);
         } else if(this._param.target == 'key'){
             var result = this.applyPreg(this._rule.match,key);
@@ -82,7 +82,7 @@ Rule.prototype.matchData = function(body, action)
     for (var key in body) {
         var value = body[key];
         
-        if (this._param.target == 'value') {
+        if (this._param.target == 'value' && ( this._param.name == '*' || this._param.name == key) ) {
             var result = this.applyPreg(this._rule.match,value);
         } else if(this._param.target == 'key'){
             var result = this.applyPreg(this._rule.match,key);
@@ -108,7 +108,7 @@ Rule.prototype.matchCookie = function(req, action)
     for (var key in cookiesObj) {
         var value = cookiesObj[key];
 
-        if (this._param.target == 'value') {
+        if (this._param.target == 'value' && ( this._param.name == '*' || this._param.name == key) ) {
             var result = this.applyPreg(this._rule.match,value);
         } else if(this._param.target == 'key'){
             var result = this.applyPreg(this._rule.match,key);
