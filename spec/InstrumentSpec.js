@@ -1,8 +1,10 @@
 var Instrument = require('../src/Instrument');
 var Logger = require('../src/Logger');
+var MonkeyPatch = require('../src/monkeyPatch');
 Instrumenter = new Instrument({
     log:new Logger(false),
-    _loadedModules:{}
+    _loadedModules:{},
+    monkeyPatch:new MonkeyPatch({log:new Logger(false)})
 });
 
 describe("Instrument",function () {
