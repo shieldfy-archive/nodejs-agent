@@ -46,11 +46,15 @@ describe("Judge",function () {
         })
     });
 
-    // describe(".executeMonkey",function () {
-
-    // });
-
-    // describe(".report",function () {
-
-    // });
+    describe(".executeMonkey",function () {
+        var judge = new Judge(agent)
+        var test
+        it("should match attack",function () {            
+            expect(judge.executeMonkey(test, "undefined", "regex").isAttack).toEqual(true);
+            expect(judge.executeMonkey(()=>{}, "function", '()=>{}').isAttack).toEqual(true);
+            expect(judge.executeMonkey("string", "string", "string").isAttack).toEqual(true);
+            expect(judge.executeMonkey(1, "number", "1").isAttack).toEqual(true);
+            expect(judge.executeMonkey(1, "string", "1").isAttack).toEqual(false);
+        })
+    });
 });
