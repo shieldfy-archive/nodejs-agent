@@ -47,7 +47,7 @@ describe("Agent",function () {
         expect(typeof(this.agent.rules)).toEqual('object');
         expect(typeof(this.agent._config)).toEqual('object');
         expect(this.agent._config.appKey).toEqual('testKey');
-        expect(this.agent._config.interval).toEqual(10000);
+        expect(this.agent._config.interval).toEqual(30000);
         expect(this.agent._config.debug).toEqual(false);
         expect(typeof(this.agent.http)).toEqual('object');
         expect(this.agent.http.api.appKey).toEqual('testKey');
