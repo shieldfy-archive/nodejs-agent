@@ -53,7 +53,8 @@ describe("Rules check function of vulnerable pathname attack in request",functio
         var requestPayload = rules.check(request)
 
         // check for object returned
-        expect(requestPayload['url']).toEqual('http://www.test.com/../../../..');
+        // expect sdk to fix request
+        expect(requestPayload['url']).toEqual('/');
         expect(requestPayload['method']).toEqual('GET');
 
         // check for attack
