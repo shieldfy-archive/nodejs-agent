@@ -144,3 +144,5 @@ function getWrapedModule(exportsModule ,path) {
 }
 
 module.exports = monkeyPatch
+module.exports.getFunctionIndex = getFunctionIndex
+module.exports.getWrapedModule = getWrapedModule
