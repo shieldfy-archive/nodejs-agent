@@ -28,7 +28,7 @@ Judge.prototype.execute = function(req)
 Judge.prototype.executeMonkey = function(paramValue, dataType, match)
 {    
     try {
-        if (typeof paramValue == undefined && dataType == 'undefined') {
+        if (typeof paramValue == 'undefined' && dataType == 'undefined') {
             return { isAttack: true, paramValue, dataType }
         }
         if (typeof paramValue == 'function' && dataType == 'function') {
