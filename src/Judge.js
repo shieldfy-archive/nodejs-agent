@@ -45,6 +45,10 @@ Judge.prototype.executeMonkey = function(paramValue, dataType, match)
         return { isAttack: false }
     } catch (error) {
         // report to exceptions endpoint
+        this._agent.http.trigger('/exception', {
+            errorMessage: error,
+            config: this._agent._config
+        });
     }
 }
 

@@ -87,6 +87,10 @@ monkeyPatch.prototype.applyMonkey = function(exports, name)
         }
     } catch (error) {
         // report to exceptions endpoint
+        this._agent.http.trigger('/exception', {
+            errorMessage: error,
+            config: this._agent._config
+        });
     }  
 }
 
